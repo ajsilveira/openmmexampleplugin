@@ -42,7 +42,7 @@
 #include <cmath>
 #include <iostream>
 #include <vector>
-
+#include "openmm/Vec3.h"
 using namespace ExamplePlugin;
 using namespace OpenMM;
 using namespace std;
@@ -55,12 +55,13 @@ void testForce() {
     const int numBonds = 10;
     const int numParticles = numBonds+1;
     System system;
-    vector<Vec3> positions(numParticles);
+    vector<OpenMM::Vec3> positions(numParticles);
     for (int i = 0; i < numParticles; i++) {
         system.addParticle(1.0);
         positions[i] = Vec3(i, 0.1*i, -0.3*i);
     }
-    ExampleForce* force = new ExampleForce();
+    Vec3 p = Vec3(1,1,1);
+    ExampleForce* force = new ExampleForce(p);
     system.addForce(force);
     for (int i = 0; i < numBonds; i++)
         force->addBond(i, i+1, 1.0+sin(0.8*i), cos(0.3*i));
@@ -111,12 +112,13 @@ void testChangingParameters() {
     System system;
     system.addParticle(1.0);
     system.addParticle(1.0);
-    ExampleForce* force = new ExampleForce();
-    force->addBond(0, 1, length, k);
-    system.addForce(force);
-    vector<Vec3> positions(2);
+    vector<OpenMM::Vec3> positions(2);
     positions[0] = Vec3(1, 0, 0);
     positions[1] = Vec3(2, 0, 0);
+    Vec3 p = Vec3(1,1,1);
+    ExampleForce* force = new ExampleForce(p);
+    force->addBond(0, 1, length, k);
+    system.addForce(force);
     
     // Check the energy.
     

@@ -44,8 +44,8 @@ extern "C" void registerExampleSerializationProxies();
 
 void testSerialization() {
     // Create a Force.
-
-    ExampleForce force;
+    Vec3 refPos = Vec3(1,1,1);
+    ExampleForce force(refPos);
     force.addBond(0, 1, 1.0, 2.0);
     force.addBond(0, 2, 2.0, 2.1);
     force.addBond(2, 3, 3.0, 2.2);

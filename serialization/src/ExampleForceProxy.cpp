@@ -61,10 +61,8 @@ void* ExampleForceProxy::deserialize(const SerializationNode& node) const {
     try {
         const SerializationNode& bonds = node.getChildNode("Bonds");
         for (int i = 0; i < (int) bonds.getChildren().size(); i++) {
-            vector<OpenMM::Vec3> positions;
-            for (auto& pos : node.getChildNode("ReferencePositions").getChildren())
-                positions.push_back(Vec3(pos.getDoubleProperty("x"), pos.getDoubleProperty("y"), pos.getDoubleProperty("z")));
             const SerializationNode& bond = bonds.getChildren()[i];
+            Vec3 positions = Vec3(1,1,1);
             force = new ExampleForce(positions);
             force->addBond(bond.getIntProperty("p1"), bond.getIntProperty("p2"), bond.getDoubleProperty("d"), bond.getDoubleProperty("k"));
         }

@@ -16,7 +16,6 @@
 namespace std {
   %template(vectord) vector<double>;
   %template(vectori) vector<int>;
-  %template(vectorv3) vector<OpenMM::Vec3>;
 };
 
 %{
@@ -61,7 +60,7 @@ namespace ExamplePlugin {
 
 class ExampleForce : public OpenMM::Force {
 public:
-    explicit ExampleForce(const std::vector<OpenMM::Vec3>& referencePositions);
+    ExampleForce(OpenMM::Vec3 referencePositions);
 
     int getNumBonds() const;
 

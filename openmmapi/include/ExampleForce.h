@@ -49,7 +49,7 @@ public:
     /**
      * Create an ExampleForce.
      */
-    explicit ExampleForce(const std::vector<OpenMM::Vec3>& referencePositions);
+    ExampleForce(OpenMM::Vec3& referencePositions);
     /**
      * Get the number of bond stretch terms in the potential function
      */
@@ -107,7 +107,7 @@ public:
 protected:
     OpenMM::ForceImpl* createImpl() const;
 private:
-    std::vector<OpenMM::Vec3> referencePositions;
+    OpenMM::Vec3 referencePositions;
     class BondInfo;
     std::vector<BondInfo> bonds;
 };
