@@ -35,7 +35,7 @@
 #include "ExampleKernels.h"
 #include "openmm/Platform.h"
 #include <vector>
-
+#include "openmm/Vec3.h"
 namespace ExamplePlugin {
 
 /**
@@ -70,6 +70,7 @@ public:
     void copyParametersToContext(OpenMM::ContextImpl& context, const ExampleForce& force);
 private:
     int numBonds;
+    std::vector<OpenMM::Vec3> referencePos;
     std::vector<int> particle1, particle2;
     std::vector<double> length, k;
 };

@@ -36,7 +36,7 @@
 #include "openmm/Force.h"
 #include <vector>
 #include "internal/windowsExportExample.h"
-
+#include "openmm/Vec3.h"
 namespace ExamplePlugin {
 
 /**
@@ -49,7 +49,7 @@ public:
     /**
      * Create an ExampleForce.
      */
-    ExampleForce();
+    explicit ExampleForce(const std::vector<OpenMM::Vec3>& referencePositions);
     /**
      * Get the number of bond stretch terms in the potential function
      */
@@ -107,6 +107,7 @@ public:
 protected:
     OpenMM::ForceImpl* createImpl() const;
 private:
+    std::vector<OpenMM::Vec3> referencePositions;
     class BondInfo;
     std::vector<BondInfo> bonds;
 };

@@ -33,7 +33,7 @@
 #include "ExampleForce.h"
 #include "openmm/serialization/SerializationNode.h"
 #include <sstream>
-
+#include "openmm/Vec3.h"
 using namespace ExamplePlugin;
 using namespace OpenMM;
 using namespace std;
@@ -45,6 +45,7 @@ void ExampleForceProxy::serialize(const void* object, SerializationNode& node) c
     node.setIntProperty("version", 1);
     const ExampleForce& force = *reinterpret_cast<const ExampleForce*>(object);
     SerializationNode& bonds = node.createChildNode("Bonds");
+    SerializationNode& positionsNode = node.createChildNode("ReferencePositions");
     for (int i = 0; i < force.getNumBonds(); i++) {
         int particle1, particle2;
         double distance, k;
@@ -56,11 +57,15 @@ void ExampleForceProxy::serialize(const void* object, SerializationNode& node) c
 void* ExampleForceProxy::deserialize(const SerializationNode& node) const {
     if (node.getIntProperty("version") != 1)
         throw OpenMMException("Unsupported version number");
-    ExampleForce* force = new ExampleForce();
+    ExampleForce* force = NULL;
     try {
         const SerializationNode& bonds = node.getChildNode("Bonds");
         for (int i = 0; i < (int) bonds.getChildren().size(); i++) {
+            vector<OpenMM::Vec3> positions;
+            for (auto& pos : node.getChildNode("ReferencePositions").getChildren())
+                positions.push_back(Vec3(pos.getDoubleProperty("x"), pos.getDoubleProperty("y"), pos.getDoubleProperty("z")));
             const SerializationNode& bond = bonds.getChildren()[i];
+            force = new ExampleForce(positions);
             force->addBond(bond.getIntProperty("p1"), bond.getIntProperty("p2"), bond.getDoubleProperty("d"), bond.getDoubleProperty("k"));
         }
     }
