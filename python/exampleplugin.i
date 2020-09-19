@@ -1,5 +1,5 @@
 %module exampleplugin
-%import(module="simtk.openmm") "OpenMMSwigHeaders.i"
+%import(module="simtk.openmm") "swig/OpenMMSwigHeaders.i"
 %include "typemaps.i"
 
 /*
@@ -26,6 +26,7 @@ namespace std {
 #include "openmm/RPMDIntegrator.h"
 #include "openmm/RPMDMonteCarloBarostat.h"
 #include "openmm/Vec3.h"
+using namespace OpenMM;
 %}
 
 %pythoncode %{
@@ -60,7 +61,7 @@ namespace ExamplePlugin {
 
 class ExampleForce : public OpenMM::Force {
 public:
-    ExampleForce(OpenMM::Vec3 referencePositions);
+    ExampleForce(Vec3 referencePositions);
 
     int getNumBonds() const;
 
