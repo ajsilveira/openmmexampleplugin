@@ -55,12 +55,14 @@ void testForce() {
     const int numBonds = 10;
     const int numParticles = numBonds+1;
     System system;
-    vector<OpenMM::Vec3> positions(numParticles);
+    vector<Vec3> positions(numParticles);
     for (int i = 0; i < numParticles; i++) {
         system.addParticle(1.0);
         positions[i] = Vec3(i, 0.1*i, -0.3*i);
     }
-    Vec3 p = Vec3(1,1,1);
+    vector<int> p(2);
+    p[0] = 1;
+    p[1] = 1;
     ExampleForce* force = new ExampleForce(p);
     system.addForce(force);
     for (int i = 0; i < numBonds; i++)
@@ -91,7 +93,7 @@ void testForce() {
     double offset = 1e-3;
     for (int i = 0; i < numParticles; i++)
         for (int j = 0; j < 3; j++) {
-            vector<Vec3> offsetPos = positions;
+            vector<OpenMM::Vec3> offsetPos = positions;
             offsetPos[i][j] = positions[i][j]-offset;
             context.setPositions(offsetPos);
             double e1 = context.getState(State::Energy).getPotentialEnergy();
@@ -115,7 +117,9 @@ void testChangingParameters() {
     vector<OpenMM::Vec3> positions(2);
     positions[0] = Vec3(1, 0, 0);
     positions[1] = Vec3(2, 0, 0);
-    Vec3 p = Vec3(1,1,1);
+    vector<int> p(2);
+    p[0] = 1;
+    p[1] = 2;
     ExampleForce* force = new ExampleForce(p);
     force->addBond(0, 1, length, k);
     system.addForce(force);

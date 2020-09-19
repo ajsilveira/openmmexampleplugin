@@ -1,7 +1,7 @@
 %module exampleplugin
 %import(module="simtk.openmm") "swig/OpenMMSwigHeaders.i"
+%include "swig/typemaps.i"
 %include "typemaps.i"
-
 /*
  * The following lines are needed to handle std::vector.
  * Similar lines may be needed for vectors of vectors or
@@ -9,7 +9,9 @@
  */
 
 %{
+#include "OpenMM.h"
 #include "openmm/Vec3.h"
+using namespace OpenMM;
 %}
 
 %include "std_vector.i"
@@ -25,8 +27,8 @@ namespace std {
 #include "OpenMMDrude.h"
 #include "openmm/RPMDIntegrator.h"
 #include "openmm/RPMDMonteCarloBarostat.h"
-#include "openmm/Vec3.h"
 using namespace OpenMM;
+using namespace std;
 %}
 
 %pythoncode %{
@@ -61,7 +63,7 @@ namespace ExamplePlugin {
 
 class ExampleForce : public OpenMM::Force {
 public:
-    ExampleForce(Vec3 referencePositions);
+    ExampleForce(const std::vector<int> referencePositions);
 
     int getNumBonds() const;
 
